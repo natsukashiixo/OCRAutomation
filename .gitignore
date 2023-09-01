@@ -1,0 +1,89 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# VSCode folder that was suddenly created? idk
+.vscode/
+.vs/
+
+# Image files
+*.jpg
+*.jpeg
+*.gif
+*.png
+*.bmp
+*.svg
+*.ico
+*.tif
+*.tiff
+*.webp
+
+#Ignore .xml and .hocr outputs
+*.xml
+*.hocr
+*.pdf
+*.docx
+*.txt
+
+#Ignore some stuff
+hocrparser_v2.py
+hocrparser_v3.py
+find_my_exe_lol.py
+obsolete/
+somejscodeforreference.js
+
+#venv stuff
+.venv/
+.idea/
+.vs/
+
+#Don't ignore requirements.txt
+!requirements.txt
+!/app/src/modules
