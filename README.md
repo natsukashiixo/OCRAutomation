@@ -52,7 +52,7 @@ Launch OCRAutomation.exe, on first startup it might take a while because it need
 
 # Worth noting:
 
-This project is hardcoded to use the best swedish language model combined with latin script data. If you need to change this you have to edit `app/src/modules/run_tesseract.py`
+This project is hardcoded to use the best swedish language model combined with latin script data. If you need to change this you have to edit `app/src/modules/run_tesseract.py` as well as install the relevant language models yourself.
 
 This project won't be maintained, it was built for one specific purpose at a workplace. Feel free to fork it for whatever reason though!
 
