@@ -45,7 +45,7 @@ def parse_hocr(output_file=output_file, hocr_xml=hocr_xml):
             #for paragraph in page.find_all(class_='ocr_par'): #backup in case i break something
             for cArea in page.find_all(class_='ocr_carea'): #changed to use carea class instead of paragraph
                 p = doc.add_paragraph() 
-                for line in cArea.find_all(class_='ocr_line'): # interate over lines in paragraphs I think?
+                for line in cArea.find_all(class_='ocr_line') + cArea.find_all(class_='ocr_caption'): # interate over lines in paragraphs I think?
                     linebreak = [] #if list > 1, does nothing
                     for word in line.find_all(class_='ocrx_word'): # iterate over the words in the line
                         # set the font and style of the text based on the formatting information
