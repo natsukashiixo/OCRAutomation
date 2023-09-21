@@ -22,7 +22,7 @@ def rotate_and_split_image(rootfolder=rootfolder, output_dir=output_dir):
     with ProgressCounter(len(files)) as progress:
         for file in files: #Iterates through files in the list of images
             try:
-                img = cv2.imread(os.path.join(rootfolder, file))
+                img = cv2.imread(str(file))
                 #print(file, 'loaded')
                 # Check if the height is greater than the width
                 if img.shape[0] > img.shape[1]:
@@ -48,10 +48,10 @@ def rotate_and_split_image(rootfolder=rootfolder, output_dir=output_dir):
                     
                 elif img.shape[0] < img.shape[1]:
                     #This is supposed to handle files in the proper orientation
-                    
+                    height, width = img.shape[:2]
                     # Split the image at the middle pixel of the width
-                    img_left = img_rotated[:, :width // 2]
-                    img_right = img_rotated[:, width // 2:]
+                    img_left = img[:, :width // 2]
+                    img_right = img[:, width // 2:]
                     #print(file, ' split into two images')
                     # Save the split images
                     cv2.imwrite(os.path.join(output_dir, f'{counter}.jpg'), img_left)

@@ -163,14 +163,14 @@ class Ui_MainWindow(object):
     def button_batch_double(self):
         self.PSM_value = self.check_psm_index()
         folder = Path('./TesseractOutput')
-        fn_list = [(double_rename),
-        (rotate_and_split_image),
-        (run_tesseract, self.PSM_value),
-        (parse_hocr),
-        (regex_corrector),
-        (rewrite_docx),
-        (delete_irrelevant_files),
-        (open_folder, folder),
+        fn_list = [(double_rename, ),
+            (rotate_and_split_image, ),
+            (run_tesseract, self.PSM_value),
+            (parse_hocr, ),
+            (regex_corrector, ),
+            (rewrite_docx, ),
+            (delete_irrelevant_files, ),
+            (open_folder, folder),
         ]
         worker = Worker(fn_list)
         self.start_worker(worker.iterate)
