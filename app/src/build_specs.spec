@@ -5,8 +5,8 @@ block_cipher = None
 
 
 a = Analysis(
-    ['ui.py'],
-    pathex=['./', './modules'],
+    ['app/src/ui.py'],
+    pathex=['./', './app/src/modules'],
     binaries=[],
     datas=[],
     hiddenimports = ['modules.functions_ui', 'modules.delete_files', 'modules.rewrite_docx', 'modules.fix_mistakes', 'modules.hocr_parser', 'modules.run_tesseract', 'modules.rotate_and_split_image', 'modules.doublepage_img_rename', 'modules.singlepage_img_rename', 'modules.verify_folders', 'modules.setup_functions', 'modules.is_image'],
