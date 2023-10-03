@@ -21,17 +21,17 @@ import queue
 import datetime
 import logging
 #imports of local modules
-from modules import setup_functions
-from modules import verify_folders
-from modules.singlepage_img_rename import single_rename
-from modules.doublepage_img_rename import double_rename
-from modules.rotate_and_split_image import rotate_and_split_image
-from modules.run_tesseract import run_tesseract
-from modules.hocr_parser import parse_hocr
-from modules.fix_mistakes import regex_corrector
-from modules.rewrite_docx import rewrite_docx
-from modules.delete_files import delete_irrelevant_files
-from modules.functions_ui import open_folder
+from app.src.modules import setup_functions
+from app.src.modules import verify_folders
+from app.src.modules.singlepage_img_rename import single_rename
+from app.src.modules.doublepage_img_rename import double_rename
+from app.src.modules.rotate_and_split_image import rotate_and_split_image
+from app.src.modules.run_tesseract import run_tesseract
+from app.src.modules.hocr_parser import parse_hocr
+from app.src.modules.fix_mistakes import regex_corrector
+from app.src.modules.rewrite_docx import rewrite_docx
+from app.src.modules.delete_files import delete_irrelevant_files
+from app.src.modules.functions_ui import open_folder
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
