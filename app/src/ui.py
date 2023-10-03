@@ -1,7 +1,5 @@
 #I'm sorry if someone has to handle this after me haha this is a mess.
 
-#lets just write something to test the new workflow
-
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\advanced.ui'
