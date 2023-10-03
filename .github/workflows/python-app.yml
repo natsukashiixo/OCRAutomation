@@ -36,7 +36,7 @@ jobs:
         # Options to set for pyinstaller command Ex: options: '--onedir, -F'       (seperated by comma and space)
         options: --noconfirm
         # specific python version you want to use
-        python_ver: 3.10
+        python_ver: "3.10"
         # specific python architecture you want to use
         python_arch: x64
         # Path on runner-os, where generated executable files are stored
