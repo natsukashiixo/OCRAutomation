@@ -16,6 +16,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from pathlib import Path
 import sys
 import queue
+import datetime
+import logging
 #imports of local modules
 from modules import setup_functions
 from modules import verify_folders
@@ -28,6 +30,21 @@ from modules.fix_mistakes import regex_corrector
 from modules.rewrite_docx import rewrite_docx
 from modules.delete_files import delete_irrelevant_files
 from modules.functions_ui import open_folder
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
+file_handler = logging.FileHandler('app.log')
+critical_handler = logging.FileHandler('app.log')
+file_handler.setLevel(logging.ERROR)
+critical_handler.setLevel(logging.CRITICAL)
+critical_handler.setFormatter(formatter)
+file_handler.setFormatter(formatter)
+critical_handler.flush = True
+logger.addHandler(file_handler)
+logger.addHandler(critical_handler)
+
+
 
 class SequentialManager(QtCore.QObject):
     finished = QtCore.pyqtSignal()
@@ -757,6 +774,7 @@ class Ui_MainWindow(object):
 
 
 if __name__ == "__main__":
+   
     if not verify_folders.read_folder_flag():
         verify_folders.app_folder_check()
         verify_folders.asset_folder_check()
@@ -769,12 +787,23 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
-    MainWindow.show()
-    if not setup_functions.tessinstall_flag():
-        setup_functions.tesspath_create()
-        setup_functions.tesseract_instructions()
-    if not setup_functions.latdata_flag():
-        setup_functions.latdata_download()
-    if not setup_functions.swedata_flag():
-        setup_functions.swedata_download()
+    try: 
+        MainWindow.show()
+        if not setup_functions.tessinstall_flag():
+            setup_functions.tesspath_create()
+            setup_functions.tesseract_instructions()
+        if not setup_functions.latdata_flag():
+            setup_functions.latdata_download()
+        if not setup_functions.swedata_flag():
+            setup_functions.swedata_download()
+    except Exception as e:
+        timestamp = datetime.datetime.now()
+        logger.exception(e)
+        exception_info = sys.exc_info()
+        with open("logs.txt", "a") as f:
+            f.write(f'[{timestamp}]: Caught Exception {e}\n')
+            f.write(f'Exception Type: {exception_info[0]}\n')
+            f.write(f'Exception Value: {exception_info[1]}\n')
+            f.write(f'Exception Traceback: {exception_info[2]}\n')
+        print(f'[{timestamp}]: Caught Exception {e}')
     sys.exit(app.exec_())
