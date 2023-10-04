@@ -2,8 +2,8 @@ import os
 import cv2
 import time
 from pathlib import Path
-from modules.is_image import is_image as IsImage
-from modules.functions_ui import ProgressCounter
+from app.src.modules.is_image import is_image as IsImage
+from app.src.modules.functions_ui import ProgressCounter
 
 # Set the path to the root directory containing the folder with images
 rootfolder = './SplitterInput'

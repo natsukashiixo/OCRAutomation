@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from modules.is_image import is_image as IsImage
+from app.src.modules.is_image import is_image as IsImage
 
 rootfolder = './'
 txt_file = Path('./TesseractOutput/less_mistakes.txt')

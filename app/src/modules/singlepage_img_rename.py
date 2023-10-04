@@ -1,8 +1,8 @@
 from pathlib import Path
-from modules.is_image import is_image as IsImage
+from app.src.modules.is_image import is_image as IsImage
 import os
 import shutil
-from modules.functions_ui import ProgressCounter
+from app.src.modules.functions_ui import ProgressCounter
 import re
 from natsort import os_sorted
 

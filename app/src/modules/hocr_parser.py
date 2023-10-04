@@ -2,7 +2,7 @@ import docx
 from docx.shared import Pt
 from pathlib import Path
 from bs4 import BeautifulSoup
-from modules.functions_ui import ProgressCounter
+from app.src.modules.functions_ui import ProgressCounter
 
 output_file = Path('./TesseractOutput/to_be_parsed.docx')
 hocr_xml = Path('./TesseractOutput/output.xml')

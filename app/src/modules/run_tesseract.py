@@ -1,9 +1,9 @@
 from pathlib import Path
 import pytesseract
 import cv2
-from modules.is_image import is_image as IsImage
+from app.src.modules.is_image import is_image as IsImage
 from about_time import about_time
-from modules.functions_ui import round_seconds
+from app.src.modules.functions_ui import round_seconds
 
 def run_tesseract(psm_nr=3):
     
