@@ -43,8 +43,8 @@ def double_rename(rootfolder=rootfolder, destination=destination):
         for file in ImageList:
             try:
             #print(file, os.path.getctime(file)) #Debug statement
-                ext = os.path.splitext(file)[1] # Save the file extension
-                NewFile = os.path.join(rootfolder, f"{Counter}{ext}") # Construct the new file path
+                ext = os.path.splitext(file)[1] 
+                NewFile = os.path.join(rootfolder, f"{Counter}{ext}") 
             #print(file, 'saved as:', NewFile)
                 shutil.copy(file, NewFile) #Creates a copy of the original file with a new name and metadata
                 Counter = '{:04d}'.format(int(Counter) + 1)
@@ -59,7 +59,7 @@ def double_rename(rootfolder=rootfolder, destination=destination):
         try:
             #print(RenamedFiles) #Debug to make sure the right file was added to this list
             #print(file, 'saved to:', destination)
-            shutil.move(file, destination) #Moves processed files to output folder
+            shutil.move(file, destination) 
         except BaseException as error:
             print('An exception occurred while processing {}: {}'.format(file, error))
     print(f'{len(RenamedFiles)} images renamed and moved')
