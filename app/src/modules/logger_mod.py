@@ -19,4 +19,5 @@ def write_log(e: Exception):
     timestamp = datetime.datetime.now()
     logger.exception(e)
     print(f'[{timestamp}]: Caught Exception {e}')
+    sys.exit(1)
     
