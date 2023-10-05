@@ -18,8 +18,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from pathlib import Path
 import sys
 import queue
-import datetime
-import logging
 #imports of local modules
 from app.src.modules import setup_functions
 from app.src.modules import verify_folders
@@ -32,21 +30,7 @@ from app.src.modules.fix_mistakes import regex_corrector
 from app.src.modules.rewrite_docx import rewrite_docx
 from app.src.modules.delete_files import delete_irrelevant_files
 from app.src.modules.functions_ui import open_folder
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
-file_handler = logging.FileHandler('app.log')
-critical_handler = logging.FileHandler('app.log')
-file_handler.setLevel(logging.ERROR)
-critical_handler.setLevel(logging.CRITICAL)
-critical_handler.setFormatter(formatter)
-file_handler.setFormatter(formatter)
-critical_handler.flush = True
-logger.addHandler(file_handler)
-logger.addHandler(critical_handler)
-
-
+from app.src.modules.logger_mod import write_log as WriteLog
 
 class SequentialManager(QtCore.QObject):
     finished = QtCore.pyqtSignal()
@@ -142,72 +126,32 @@ class Ui_MainWindow(object):
             self.PSM_value = self.check_psm_index()
             self.start_worker(single_rename)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
             
     def button_double_rename(self):
         try:
             self.start_worker(double_rename)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
             
     def button_rotate_split(self):
         try:
             self.start_worker(rotate_and_split_image)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
             
     def button_run_tesseract(self):
         try:
             self.PSM_value = self.check_psm_index()
             self.start_worker(run_tesseract, self.PSM_value)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
             
     def button_hocr_parse(self):
         try:
             self.start_worker(parse_hocr)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
             
     def button_rewrite(self):
         try:
@@ -216,59 +160,27 @@ class Ui_MainWindow(object):
             worker = Worker(fn_list)
             self.start_worker(worker.iterate)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
             
     def button_delete(self):
         try:
             self.start_worker(delete_irrelevant_files)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
     
     def button_import_folder(self):
         try:
             folder = Path('./ImportFolder')
             self.start_worker(open_folder, folder)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
     
     def button_output_folder(self):
         try:
             folder = Path('./TesseractOutput')
             self.start_worker(open_folder, folder)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
         
     def button_batch_single(self):
         try:
@@ -285,15 +197,7 @@ class Ui_MainWindow(object):
             worker = Worker(fn_list)
             self.start_worker(worker.iterate)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
         
     def button_batch_double(self):
         try:
@@ -311,15 +215,7 @@ class Ui_MainWindow(object):
             worker = Worker(fn_list)
             self.start_worker(worker.iterate)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
         
     def button_quit(self):
         QtCore.QCoreApplication.instance().quit()
@@ -829,15 +725,7 @@ class Ui_MainWindow(object):
             self.PSM_combobox.addItem('Raw Single Line', 13)
             self.PSM_combobox.setCurrentIndex(0)
         except Exception as e:
-            timestamp = datetime.datetime.now()
-            logger.exception(e)
-            exception_info = sys.exc_info()
-            with open("logs.txt", "a") as f:
-                f.write(f'[{timestamp}]: Caught Exception {e}\n')
-                f.write(f'Exception Type: {exception_info[0]}\n')
-                f.write(f'Exception Value: {exception_info[1]}\n')
-                f.write(f'Exception Traceback: {exception_info[2]}\n')
-            print(f'[{timestamp}]: Caught Exception {e}')
+            WriteLog(e)
     
     def check_psm_index(self):
         current_index = self.PSM_combobox.currentIndex()
@@ -936,13 +824,5 @@ if __name__ == "__main__":
             setup_functions.swedata_download()
         sys.exit(app.exec_())
     except Exception as e:
-        timestamp = datetime.datetime.now()
-        logger.exception(e)
-        exception_info = sys.exc_info()
-        with open("logs.txt", "a") as f:
-            f.write(f'[{timestamp}]: Caught Exception {e}\n')
-            f.write(f'Exception Type: {exception_info[0]}\n')
-            f.write(f'Exception Value: {exception_info[1]}\n')
-            f.write(f'Exception Traceback: {exception_info[2]}\n')
-        print(f'[{timestamp}]: Caught Exception {e}')
+        WriteLog(e)
     

@@ -20,5 +20,4 @@ def write_log(e: Exception):
     logger.exception(e)
     print(f'[{timestamp}]: Caught Exception {e}')
     raise e
-    print('Operation interrupted. Attempting to gracefully exit.')
     
