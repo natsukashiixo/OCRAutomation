@@ -1,4 +1,5 @@
 import sys
+from app.src.modules.logger_mod import write_log as WriteLog
 
 imagetuple_agnostic = ('474946383761', '474946383961', 'FFD8FFDB', 'FFD8FFE000104A4649460001', 'FFD8FFEE', 'FFD8FFE1', 'FFD8FFE0', '0000000C6A5020200D0A870A', 'FF4FFF51', '89504E470D0A1A0A', '424D', ) #checks if a file is GIF, JPG, JPEG, JFIF, JPEG2000, PNG or BMP
 imagetuple_little = ('49492A00', ) #checks if a file is TIFF in little endian
@@ -25,6 +26,7 @@ def is_image(file):
             return False
     except BaseException as error:
         print('An exception occurred while processing {}: {}'.format(file, error))
+        WriteLog(error)
         return False
 
 
