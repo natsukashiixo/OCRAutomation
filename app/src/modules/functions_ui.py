@@ -2,23 +2,32 @@
 from typing import Union
 import os
 import math
+from modules.logger_mod import write_log as WriteLog
 
 def clicked():
     print("buttonclick")
     
 def open_folder(path: Union[str, os.PathLike]):
-    realpath = os.path.realpath(path)
-    os.startfile(realpath)
+    try:
+        realpath = os.path.realpath(path)
+        os.startfile(realpath)
+    except Exception as e:
+        WriteLog(e)
+    
     
 def exit_button():
     #sys.exit(app.exec_() #this probably needs to be in the actual UI file I guess
     pass
 
 def round_seconds(seconds):
-        seconds = int(seconds)
-        m, s = divmod(seconds, 60)
-        h, m = divmod(m, 60)
-        return h, m, s
+        try:
+            seconds = int(seconds)
+            m, s = divmod(seconds, 60)
+            h, m = divmod(m, 60)
+            return h, m, s
+        except Exception as e:
+            WriteLog(e)
+        
 
 class ProgressCounter:
     def __init__(self, total):
@@ -33,14 +42,18 @@ class ProgressCounter:
         pass
 
     def update_progress(self):
-        self.counter += 1
-        percent_done = (self.counter / self.total) * 100
-        floored_percent = math.floor(percent_done)
-        if self.total < 100:
-            print(f"{percent_done:.2f}% done")
-        elif floored_percent%5 == 0 and floored_percent != self.previous_percent:
-            self.previous_percent = floored_percent
-            print(f"{percent_done:.2f}% done")
+        try:
+            self.counter += 1
+            percent_done = (self.counter / self.total) * 100
+            floored_percent = math.floor(percent_done)
+            if self.total < 100:
+                print(f"{percent_done:.2f}% done")
+            elif floored_percent%5 == 0 and floored_percent != self.previous_percent:
+                self.previous_percent = floored_percent
+                print(f"{percent_done:.2f}% done")
+        except Exception as e:
+            WriteLog(e)
+        
         
     def finalize(self):
         print('Operation completed')    

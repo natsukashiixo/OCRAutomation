@@ -2,6 +2,7 @@ from pathlib import Path
 from os.path import expandvars, abspath
 import os
 import urllib.request
+from modules.logger_mod import write_log as WriteLog
 
 starting_dir = abspath(Path('.'))
 appdata_local = expandvars('%LOCALAPPDATA%')
@@ -19,20 +20,24 @@ swe_traineddata_reference = Path(appdata_local, 'Programs', 'Tesseract-OCR', 'te
 whitelist_file_reference = Path(appdata_local, 'Programs', 'Tesseract-OCR', 'tessdata', 'configs', 'letters')
 
 def tesspath_create():
-    if Path('./tesseract_install.txt').is_file():  # Looks for a text file and trained data
-        pass
-    else:
-        for file in tesseract_search:
-            if not tesseract_search:
-                print("Tesseract not found, make sure it's installed in the default folder.")
-                return
-            else:
-                os.chdir(appdata_local)
-                abspath_file = abspath(file)
-                os.chdir(starting_dir)
-                f = open('./tesseract_install.txt', 'a')
-                f.write(abspath_file)
-                f.close()
+    try:
+        if Path('./tesseract_install.txt').is_file():  # Looks for a text file and trained data
+            pass
+        else:
+            for file in tesseract_search:
+                if not tesseract_search:
+                    print("Tesseract not found, make sure it's installed in the default folder.")
+                    return
+                else:
+                    os.chdir(appdata_local)
+                    abspath_file = abspath(file)
+                    os.chdir(starting_dir)
+                    f = open('./tesseract_install.txt', 'a')
+                    f.write(abspath_file)
+                    f.close()
+    except Exception as e:
+        WriteLog(e)
+    
     
 def tessinstall_flag():
     if Path('./tesseract_install.txt').is_file():
@@ -64,48 +69,56 @@ def swedata_flag():
             
             
 def latdata_download():
-    if not tessinstall_flag():
-        print("Tesseract couldn't be found. Make sure it's installed and that ../tesseract_install.txt contains a valid path to the program file.")
-        return
+    try:
+        if not tessinstall_flag():
+            print("Tesseract couldn't be found. Make sure it's installed and that ../tesseract_install.txt contains a valid path to the program file.")
+            return
+        
+        elif latdata_flag():
+            return
+        
+        elif os.path.isfile(lat_traineddata_reference):
+            with open('./flags.txt', 'a') as flag_file:
+                flag_file.write('LATDATA = 1\n')
+        
+        else:
+            with open('./tesseract_install.txt', 'r') as f:
+                tess_exe = Path(f.read())
+                install_folder = tess_exe.parent
+            lat_traineddata = Path(install_folder, 'tessdata', 'script', 'Latin.traineddata')
+            urllib.request.urlretrieve(lat_url, lat_traineddata)
+            f.close()
+            with open('./flags.txt', 'a') as flag_file:
+                flag_file.write('LATDATA = 1\n')
+    except Exception as e:
+        WriteLog(e)
     
-    elif latdata_flag():
-        return
-    
-    elif os.path.isfile(lat_traineddata_reference):
-        with open('./flags.txt', 'a') as flag_file:
-            flag_file.write('LATDATA = 1\n')
-    
-    else:
-        with open('./tesseract_install.txt', 'r') as f:
-            tess_exe = Path(f.read())
-            install_folder = tess_exe.parent
-        lat_traineddata = Path(install_folder, 'tessdata', 'script', 'Latin.traineddata')
-        urllib.request.urlretrieve(lat_url, lat_traineddata)
-        f.close()
-        with open('./flags.txt', 'a') as flag_file:
-            flag_file.write('LATDATA = 1\n')
 
 def swedata_download():
-    if not tessinstall_flag():
-        print("Tesseract couldn't be found. Make sure it's installed and that ../tesseract_install.txt contains a valid path to the program file.")
-        return
+    try:
+        if not tessinstall_flag():
+            print("Tesseract couldn't be found. Make sure it's installed and that ../tesseract_install.txt contains a valid path to the program file.")
+            return
+        
+        elif swedata_flag():
+            return
+        
+        elif os.path.isfile(swe_traineddata_reference):
+            with open('./flags.txt', 'a') as flag_file:
+                flag_file.write('SWEDATA = 1\n')
+        
+        else:
+            with open('./tesseract_install.txt', 'r') as f:
+                tess_exe = Path(f.read())
+                install_folder = tess_exe.parent
+            swe_traineddata = Path(install_folder, 'tessdata', 'swe.traineddata')
+            urllib.request.urlretrieve(swe_url, swe_traineddata)
+            f.close()
+            with open('./flags.txt', 'a') as flag_file:
+                flag_file.write('SWEDATA = 1\n')
+    except Exception as e:
+        WriteLog(e)
     
-    elif swedata_flag():
-        return
-    
-    elif os.path.isfile(swe_traineddata_reference):
-        with open('./flags.txt', 'a') as flag_file:
-            flag_file.write('SWEDATA = 1\n')
-    
-    else:
-        with open('./tesseract_install.txt', 'r') as f:
-            tess_exe = Path(f.read())
-            install_folder = tess_exe.parent
-        swe_traineddata = Path(install_folder, 'tessdata', 'swe.traineddata')
-        urllib.request.urlretrieve(swe_url, swe_traineddata)
-        f.close()
-        with open('./flags.txt', 'a') as flag_file:
-            flag_file.write('SWEDATA = 1\n')
 
 def tesseract_instructions():
     if not tessinstall_flag():
